@@ -38,13 +38,13 @@ public class HomePropietario {
             model.addAttribute("propietarios",listaDePropietarios);
             return "listarProp";            
     }
-    @GetMapping("excluir-proprietario")
+    @GetMapping("excluirProp")
     public String apagarProprietario(@RequestParam(value = "id", required = true) int idProp) {
         db.update("delete from proprietario where id=?", idProp);
         return "redirect:/proprietarios";
     }
 
-    @GetMapping("editar-proprietario")
+    @GetMapping("editarProp")
     public String exibeFormAlteracaoProprietario(@RequestParam(value = "id", required = true) int idProp, Model model) {
         Propietario proprietario = db.queryForObject(
                 "select * from proprietario where id = ?",

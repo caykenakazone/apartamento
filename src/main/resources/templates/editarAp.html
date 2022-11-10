@@ -1,26 +1,25 @@
 <html th:include="template :: modelo">
 <div th:fragment="conteudo">
-    <form action="/novo" method="post" th:object="${contato}">
+    <form action="/gravaapartamentoeditado" method="post" th:object="${apartamentoEditado}">
         <div class="mb-3">
+            <input type="hidden" th:field="*{id}">
             <label for="numPortas" class="form-label">Número de Portas</label>
             <input type="text" class="form-control" th:field="*{numPortas}">
         </div>
         <div class="mb-3">
-            <label for="endereco" class="form-label">Quantidade de quartos</label>
+            <label for="qtdQuartos" class="form-label">Quantidade de quartos</label>
             <input type="text" class="form-control" th:field="*{qtdQuartos}">
         </div>
         <div class="mb-3">
-            <label for="telefone" class="form-label">Telefone</label>
-            <input type="text" class="form-control" th:field="*{telefone}">
+            <label for="tipo" class="form-label">Tipo</label>
+            <input type="text" class="form-control" th:field="*{tipo}">
         </div>
         <div class="mb-3">
-            <label for="descricao" class="form-label">Tipo</label>
-            <select th:field="*{tipo.id}" class="form-control">
-                <option th:each="t : ${tipos}" th:value="${t.id}" th:text="${t.descricao}">
-                </option>
-            </select>
+            <label for="propietario" class="form-label">Propietário</label>
+            <input type="text" class="form-control" th:field="*{propietario}">
         </div>
-        <button type="submit" class="btn btn-primary">Gravar</button>
+        
+        <button type="submit" class="btn btn-primary">Alterar</button>
     </form>
 </div>
 
