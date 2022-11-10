@@ -1,6 +1,6 @@
 <html th:include="template :: modelo">
 <div th:fragment="conteudo">
-    <form action="/novoapartamento" method="post" th:object="${apartamento}">
+    <form action="/gravaapartamentoeditado" method="post" th:object="${apartamentoEditado}">
         <div class="mb-3">
             <input type="hidden" th:field="*{id}">
             <label for="numPortas" class="form-label">Número de Portas</label>
