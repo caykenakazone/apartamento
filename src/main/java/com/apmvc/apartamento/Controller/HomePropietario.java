@@ -19,35 +19,49 @@ public class HomePropietario {
     JdbcTemplate db;
 
     @GetMapping("/cadastrarProp")
-    public String cadastrarPropietario() {
+    public String exibeFormProp(Model model) {
+        model.addAttribute("propietario", new Propietario());
         return "cadastrarProp";
+    }
+
+
+    @PostMapping("cadastrarProp")
+    public String gravaDadosProp(Propietario proprietario) {
+        db.update("insert into propietario (nome, telefone, idProp) values (?,?,?)",
+                proprietario.getNome(), proprietario.getTelefone(), proprietario.getIdProp());
+        return "redirect:/cadastrarProp";
     }
 
     @GetMapping("/listarProp")
     public String listarProp(Model model) {
         List<Propietario> listaDePropietarios = db.query(
-            "select * from propietario",
-            (res,rowNum)->{
-                Propietario propietario = new Propietario(
-                    res.getString("nome"),
-                    res.getString("telefone"),
-                    res.getString("id"));
-                return propietario;
-                
-            });
-            model.addAttribute("propietarios",listaDePropietarios);
-            return "listarProp";            
+                "select * from propietario",
+                (res, rowNum) -> {
+                    Propietario prop = new Propietario();
+                            prop.setNome(res.getString("nome"));
+                            prop.setTelefone(res.getString("telefone"));
+                            prop.setIdProp(res.getInt("idProp"));
+                            // res.getString("nome"),
+                            // res.getString("telefone"),
+                            // res.getString("idProp"));
+                    return prop;
+
+                });
+        model.addAttribute("propietarios", listaDePropietarios);
+        return "listarProp";
     }
+
     @GetMapping("excluirProp")
-    public String apagarProprietario(@RequestParam(value = "id", required = true) int idProp) {
-        db.update("delete from proprietario where id=?", idProp);
-        return "redirect:/proprietarios";
+    public String apagarProprietario(@RequestParam(value = "idProp", required = true) int idProp) {
+        db.update("delete from proprietario where idProp=?", idProp);
+        return "redirect:/listarProp";
     }
 
     @GetMapping("editarProp")
-    public String exibeFormAlteracaoProprietario(@RequestParam(value = "id", required = true) int idProp, Model model) {
+    public String exibeFormAlteracaoProprietario(@RequestParam(value = "idProp", required = true) int idProp,
+            Model model) {
         Propietario proprietario = db.queryForObject(
-                "select * from proprietario where id = ?",
+                "update * from proprietario where idProp = ?",
                 (rs, rowNum) -> {
                     Propietario edited = new Propietario();
                     edited.setIdProp(rs.getInt("idProp"));
@@ -56,17 +70,17 @@ public class HomePropietario {
                     return edited;
                 }, idProp);
         model.addAttribute("proprietarioEditado", proprietario);
-        return "editaproprietario";
+        return "editarProp";
     }
 
     @PostMapping("gravaproprietarioeditado")
     public String gravaProprietarioEditado(Propietario proprietario) {
         db.update(
-                "update proprietario set nome=?, telefone=? where id = ?",
+                "update proprietario set nome=?, telefone=? where idProp = ?",
                 proprietario.getNome(),
                 proprietario.getTelefone(),
                 proprietario.getIdProp());
-        return "redirect:/proprietarios";
+        return "redirect:/listarProp";
     }
 
 }

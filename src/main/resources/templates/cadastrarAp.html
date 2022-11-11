@@ -1,8 +1,8 @@
 <html th:include="template :: modelo">
 <div th:fragment="conteudo">
-    <form action="/novoapartamento" method="post" th:object="${apartamento}">
+    <form action="/cadastrarAp" method="post" th:object="${apartamento}">
         <div class="mb-3">
-            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{idAp}">
             <label for="numPortas" class="form-label">Número de Portas</label>
             <input type="text" class="form-control" th:field="*{numPortas}">
         </div>
@@ -19,7 +19,7 @@
             <input type="text" class="form-control" th:field="*{propietario}">
         </div>
         
-        <button type="submit" class="btn btn-primary">Alterar</button>
+        <button type="submit" class="btn btn-primary">Cadastar</button>
     </form>
 </div>
 
